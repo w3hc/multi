@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout'
 import Link from 'next/link'
 
@@ -6,10 +6,9 @@ import Link from 'next/link'
       return (
         <>
           <Layout>
-            <Heading>Welcome to Chakra + Next.js</Heading>
-            
-            <h1>Salut ! 👋</h1>
-            <p><Link href="/about">About</Link></p>
+            <Heading>Home</Heading>
+            <Text  mt={8}>Salut ! 👋</Text>
+            <Text mt={8}><Link href="/about">About</Link></Text>
           </Layout>
         </>
       ); 
