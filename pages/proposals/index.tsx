@@ -13,7 +13,7 @@ type Props = {
 
 const WithStaticProps = ({ items }: Props) => (
   <Layout title="Proposals">
-    <Heading>Open proposals</Heading>
+    <Heading>Active proposals</Heading>
     <br /><br />
     <List items={items} />
     <br />

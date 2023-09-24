@@ -3,6 +3,16 @@ import Link from 'next/link'
 import Head from 'next/head'
 import Header from './Header'
 import { Container, Box, Flex, Spacer, Button, useColorModeValue } from '@chakra-ui/react';
+// import "./globals.css";
+
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata = {
+  title: "Multi",
+  description: "Cool app",
+};
 
 type Props = {
   children?: ReactNode
