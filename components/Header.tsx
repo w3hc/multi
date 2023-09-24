@@ -32,19 +32,11 @@ const Header = () => {
     web3auth, setWeb3auth,
     provider, setProvider,
     userAddress, setUserAddress,
-    setBal,
-    userShortenAddr, setShortenAddr,
-    etherscanLink, setEtherscanLink
-    // etherscanLink, setEtherscanLink,
-    // txHash, setTxHash,
-    // net, setNet,
-    // firstName, setFirstName,
-    // pfp, setPfp
+    setBal
   } = useGlobalContext()
 
   const [torusPlugin, setTorusPlugin] = useState<TorusWalletConnectorPlugin | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  // const [provider, setProvider] = useState<IProvider | null>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -141,9 +133,6 @@ const Header = () => {
         if (web3auth.connected) {
           setLoggedIn(true);
         }
-        const addr = await getAccounts()
-        console.log('addr', addr)
-        setUserAddress(String(addr));
       } catch (error) {
         console.error(error);
       }
@@ -154,12 +143,12 @@ const Header = () => {
 
   useEffect(() => {
     if (!provider) {
-      uiConsole("provider not initialized yet");
       return;
     }
     getAccounts()
     getBalance()
-  }, [provider]);
+    console.log('getAccounts():', getAccounts())
+  }, []);
 
   const login = async () => {
     if (!web3auth) {
@@ -168,6 +157,7 @@ const Header = () => {
     }
     const web3authProvider = await web3auth.connect();
     setProvider(web3authProvider);
+    setLoggedIn(true);
   };
 
   const authenticateUser = async () => {
@@ -261,13 +251,12 @@ const Header = () => {
 
   const getAccounts = async () => {
     if (!provider) {
-      uiConsole("provider not initialized yet");
       return;
     }
     const rpc = new RPC(provider);
     const address = await rpc.getAccounts();
-    console.log('address new RPC(provider):', address)
-    setUserAddress(address);
+    console.log("address:", address)
+    setUserAddress(address)
   };
 
   const getBalance = async () => {
