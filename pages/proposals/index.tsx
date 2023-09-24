@@ -5,22 +5,21 @@ import { Proposal } from '../../interfaces'
 import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../components/Layout'
 import List from '../../components/List'
+import { Heading, Text } from '@chakra-ui/react';
 
 type Props = {
   items: Proposal[]
 }
 
 const WithStaticProps = ({ items }: Props) => (
-  <Layout title="Users List | Next.js + TypeScript Example">
-    <h1>Users List</h1>
-    <p>
-      Example fetching data from inside <code>getStaticProps()</code>.
-    </p>
-    <p>You are currently on: /proposals</p>
+  <Layout title="Proposals">
+    <Heading>Open proposals</Heading>
+    <br /><br />
     <List items={items} />
-    <p>
+    <br />
+    <Text>
       <Link href="/">Back home</Link>
-    </p>
+    </Text>
   </Layout>
 )
 

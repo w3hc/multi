@@ -8,7 +8,8 @@ import Link from 'next/link'
           <Layout>
             <Heading>Home</Heading>
             <Text  mt={8}>Salut ! 👋</Text>
-            <Text mt={8}><Link href="/about">About</Link></Text>
+            <Text><Link href="/about">About</Link></Text><Text ><Link href="/proposals">Proposals</Link></Text>
+
           </Layout>
         </>
       ); 
