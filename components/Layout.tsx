@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
+import { Container, Box } from '@chakra-ui/react';
 
 type Props = {
   children?: ReactNode
@@ -21,11 +22,10 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
         <a href="/api/users">Users API</a>
       </nav>
     </header>
-    {children}
-    <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
-    </footer>
+    <Container maxW="container.lg" mt={16}>
+      <Box>{children}</Box>
+    </Container>
+    
   </div>
 )
 
