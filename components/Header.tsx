@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import RPC from './ethersRPC'
 
-const clientId = "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
+const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID
 
 const Header = () => {
 
