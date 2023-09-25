@@ -3,23 +3,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 "use client";
 
-import { Container, Box, Flex, Spacer, Button, useColorModeValue } from '@chakra-ui/react';
-import Link from 'next/link'
+import { Flex, Spacer, Button, useColorModeValue } from '@chakra-ui/react';
 import { useGlobalContext } from '../components/Web3Context';
-import { CHAIN_NAMESPACES, IProvider } from "@web3auth/base";
-import { MetamaskAdapter } from "@web3auth/metamask-adapter";
+import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
-import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
-// import RPC from ".api/ethersRPC"; // for using ethers.js
-// Plugins
-import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
-// Adapters
-
-// import { WalletConnectV1Adapter } from "@web3auth/wallet-connect-v1-adapter";
-import {
-  WalletConnectV2Adapter,
-  getWalletConnectV2Settings,
-} from "@web3auth/wallet-connect-v2-adapter";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import RPC from './ethersRPC'
@@ -31,11 +18,9 @@ const Header = () => {
   const { 
     web3auth, setWeb3auth,
     provider, setProvider,
-    userAddress, setUserAddress,
-    setBal
+    userAddress, setUserAddress
   } = useGlobalContext()
 
-  const [torusPlugin, setTorusPlugin] = useState<TorusWalletConnectorPlugin | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -50,66 +35,6 @@ const Header = () => {
           },
           web3AuthNetwork: "sapphire_mainnet",
         });
-
-        // const torusPlugin = new TorusWalletConnectorPlugin({
-        //   torusWalletOpts: {},
-        //   walletInitOptions: {
-        //     whiteLabel: {
-        //       theme: { isDark: true, colors: { primary: "#00a8ff" } },
-        //       logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-        //       logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-        //     },
-        //     useWalletConnect: true,
-        //     enableLogging: true,
-        //   },
-        // });
-        // setTorusPlugin(torusPlugin);
-        // await web3auth.addPlugin(torusPlugin);
-
-        const defaultWcSettings = await getWalletConnectV2Settings(
-          "eip155",
-          [1],
-          "04309ed1007e77d1f119b85205bb779d"
-        );
-        const walletConnectV2Adapter = new WalletConnectV2Adapter({
-          adapterSettings: { ...defaultWcSettings.adapterSettings },
-          loginSettings: { ...defaultWcSettings.loginSettings },
-        });
-
-        web3auth.configureAdapter(walletConnectV2Adapter);
-
-        // adding metamask adapter
-
-        const metamaskAdapter = new MetamaskAdapter({
-          clientId,
-          sessionTime: 3600, // 1 hour in seconds
-          web3AuthNetwork: "sapphire_mainnet",
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x1",
-            rpcTarget: process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_ENDPOINT
-          },
-        });
-        // we can change the above settings using this function
-        // metamaskAdapter.setAdapterSettings({
-        //   sessionTime: 86400, // 1 day in seconds
-        //   chainConfig: {
-        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
-        //     chainId: "0x89",
-        //     rpcTarget: "https://rpc-mainnet.matic.network", // This is the public RPC we have added, please pass on your own endpoint while creating an app
-        //   },
-        //   web3AuthNetwork: "sapphire_mainnet",
-        // });
-
-        // it will add/update  the metamask adapter in to web3auth class
-        // web3auth.configureAdapter(metamaskAdapter);
-
-        // const torusWalletAdapter = new TorusWalletAdapter({
-        //   clientId,
-        // });
-
-        // it will add/update  the torus-evm adapter in to web3auth class
-        // web3auth.configureAdapter(torusWalletAdapter);
 
         setWeb3auth(web3auth);
         setProvider(web3auth.provider);
@@ -172,9 +97,6 @@ const Header = () => {
 
   return(
     <Flex as="header" bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')} px={4} py={5} mb={8} alignItems="center">
-    {/* <Link href="/">Home</Link> | <Link href="/about">About</Link> |{' '}
-        <Link href="/proposals">Users List</Link> |{' '}
-        <a href="/api/users">Users API</a> */}
       <Spacer />
       <Flex alignItems="center" gap={4}>
         {loggedIn === true ? 
