@@ -46,25 +46,25 @@ const Header = () => {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_ENDPOINT
           },
           web3AuthNetwork: "sapphire_mainnet",
         });
 
-        const torusPlugin = new TorusWalletConnectorPlugin({
-          torusWalletOpts: {},
-          walletInitOptions: {
-            whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#00a8ff" } },
-              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-            },
-            useWalletConnect: true,
-            enableLogging: true,
-          },
-        });
-        setTorusPlugin(torusPlugin);
-        await web3auth.addPlugin(torusPlugin);
+        // const torusPlugin = new TorusWalletConnectorPlugin({
+        //   torusWalletOpts: {},
+        //   walletInitOptions: {
+        //     whiteLabel: {
+        //       theme: { isDark: true, colors: { primary: "#00a8ff" } },
+        //       logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+        //       logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+        //     },
+        //     useWalletConnect: true,
+        //     enableLogging: true,
+        //   },
+        // });
+        // setTorusPlugin(torusPlugin);
+        // await web3auth.addPlugin(torusPlugin);
 
         const defaultWcSettings = await getWalletConnectV2Settings(
           "eip155",
@@ -87,7 +87,7 @@ const Header = () => {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_ENDPOINT
           },
         });
         // we can change the above settings using this function
