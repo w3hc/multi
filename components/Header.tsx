@@ -48,18 +48,6 @@ const Header = () => {
             chainId: "0x1",
             rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
           },
-          // uiConfig refers to the whitelabeling options, which is available only on Growth Plan and above
-          // Please remove this parameter if you're on the Base Plan
-          uiConfig: {
-            appName: "W3A Heroes",
-            mode: "dark",
-            // loginMethodsOrder: ["apple", "google", "twitter"],
-            logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-            logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-            defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
-            loginGridCol: 3,
-            primaryButton: "externalLogin", // "externalLogin" | "socialLogin" | "emailLogin"
-          },
           web3AuthNetwork: "sapphire_mainnet",
         });
 
