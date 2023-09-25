@@ -91,25 +91,25 @@ const Header = () => {
           },
         });
         // we can change the above settings using this function
-        metamaskAdapter.setAdapterSettings({
-          sessionTime: 86400, // 1 day in seconds
-          chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: "0x89",
-            rpcTarget: "https://rpc-mainnet.matic.network", // This is the public RPC we have added, please pass on your own endpoint while creating an app
-          },
-          web3AuthNetwork: "sapphire_mainnet",
-        });
+        // metamaskAdapter.setAdapterSettings({
+        //   sessionTime: 86400, // 1 day in seconds
+        //   chainConfig: {
+        //     chainNamespace: CHAIN_NAMESPACES.EIP155,
+        //     chainId: "0x89",
+        //     rpcTarget: "https://rpc-mainnet.matic.network", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+        //   },
+        //   web3AuthNetwork: "sapphire_mainnet",
+        // });
 
         // it will add/update  the metamask adapter in to web3auth class
-        web3auth.configureAdapter(metamaskAdapter);
+        // web3auth.configureAdapter(metamaskAdapter);
 
-        const torusWalletAdapter = new TorusWalletAdapter({
-          clientId,
-        });
+        // const torusWalletAdapter = new TorusWalletAdapter({
+        //   clientId,
+        // });
 
         // it will add/update  the torus-evm adapter in to web3auth class
-        web3auth.configureAdapter(torusWalletAdapter);
+        // web3auth.configureAdapter(torusWalletAdapter);
 
         setWeb3auth(web3auth);
         setProvider(web3auth.provider);
