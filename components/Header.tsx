@@ -21,7 +21,7 @@ import {
   getWalletConnectV2Settings,
 } from "@web3auth/wallet-connect-v2-adapter";
 import { useEffect, useState } from "react";
-
+import { ethers } from "ethers";
 import RPC from './ethersRPC'
 
 const clientId = "BEglQSgt4cUWcj6SKRdu5QkOXTsePmMcusG5EAoyjyOYKlVRjIF1iCNnMOTfpzCiunHRrMui8TIwQPXdkQ8Yxuk"; // get from https://dashboard.web3auth.io
@@ -126,12 +126,13 @@ const Header = () => {
         setWeb3auth(web3auth);
         setProvider(web3auth.provider);
 
-        getAccounts()
-        getBalance()
-
         await web3auth.initModal();
+
         if (web3auth.connected) {
           setLoggedIn(true);
+          const ethersProvider = new ethers.BrowserProvider(web3auth.provider);
+          const signer = await ethersProvider.getSigner()
+          setUserAddress(await signer.getAddress())
         }
       } catch (error) {
         console.error(error);
@@ -146,107 +147,30 @@ const Header = () => {
       return;
     }
     getAccounts()
-    getBalance()
-    console.log('getAccounts():', getAccounts())
   }, []);
 
   const login = async () => {
     if (!web3auth) {
-      uiConsole("web3auth not initialized yet");
+      console.log("web3auth not initialized yet");
       return;
     }
     const web3authProvider = await web3auth.connect();
     setProvider(web3authProvider);
+    const ethersProvider = new ethers.BrowserProvider(web3auth.provider);
+    const signer = await ethersProvider.getSigner()
+    setUserAddress(await signer.getAddress())
     setLoggedIn(true);
-  };
-
-  const authenticateUser = async () => {
-    if (!web3auth) {
-      uiConsole("web3auth not initialized yet");
-      return;
-    }
-    const idToken = await web3auth.authenticateUser();
-    uiConsole(idToken);
-  };
-
-  const getUserInfo = async () => {
-    if (!web3auth) {
-      uiConsole("web3auth not initialized yet");
-      return;
-    }
-    const user = await web3auth.getUserInfo();
-    uiConsole(user);
   };
 
   const logout = async () => {
     if (!web3auth) {
-      uiConsole("web3auth not initialized yet");
+      console.log("web3auth not initialized yet");
       return;
     }
     await web3auth.logout();
     setProvider(null);
     setLoggedIn(false);
-  };
-
-  const showWCM = async () => {
-    if (!torusPlugin) {
-      uiConsole("torus plugin not initialized yet");
-      return;
-    }
-    torusPlugin.showWalletConnectScanner();
-    uiConsole();
-  };
-
-  const initiateTopUp = async () => {
-    if (!torusPlugin) {
-      uiConsole("torus plugin not initialized yet");
-      return;
-    }
-    torusPlugin.initiateTopup("moonpay", {
-      selectedAddress: "0x8cFa648eBfD5736127BbaBd1d3cAe221B45AB9AF",
-      selectedCurrency: "USD",
-      fiatValue: 100,
-      selectedCryptoCurrency: "ETH",
-      chainNetwork: "mainnet",
-    });
-  };
-
-  const getChainId = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const chainId = await rpc.getChainId();
-    uiConsole(chainId);
-  };
-
-  const addChain = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const newChain = {
-      chainId: "0x5",
-      displayName: "Goerli",
-      chainNamespace: CHAIN_NAMESPACES.EIP155,
-      tickerName: "Goerli",
-      ticker: "ETH",
-      decimals: 18,
-      rpcTarget: "https://rpc.ankr.com/eth_goerli",
-      blockExplorer: "https://goerli.etherscan.io",
-    };
-    await web3auth?.addChain(newChain);
-    uiConsole("New Chain Added");
-  };
-
-  const switchChain = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    await web3auth?.switchChain({ chainId: "0x5" });
-    uiConsole("Chain Switched");
+    setUserAddress("")
   };
 
   const getAccounts = async () => {
@@ -255,57 +179,8 @@ const Header = () => {
     }
     const rpc = new RPC(provider);
     const address = await rpc.getAccounts();
-    console.log("address:", address)
-    setUserAddress(address)
+    return address
   };
-
-  const getBalance = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const balance = await rpc.getBalance();
-    setBal(balance);
-  };
-
-  const sendTransaction = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const receipt = await rpc.sendTransaction();
-    uiConsole(receipt);
-  };
-
-  const signMessage = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const signedMessage = await rpc.signMessage();
-    uiConsole(signedMessage);
-  };
-
-  const getPrivateKey = async () => {
-    if (!provider) {
-      uiConsole("provider not initialized yet");
-      return;
-    }
-    const rpc = new RPC(provider);
-    const privateKey = await rpc.getPrivateKey();
-    uiConsole(privateKey);
-  };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function uiConsole(...args: any[]): void {
-  const el = document.querySelector("#console>p");
-  if (el) {
-    el.innerHTML = JSON.stringify(args || {}, null, 2);
-  }
-}
 
   return(
     <Flex as="header" bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')} px={4} py={5} mb={8} alignItems="center">

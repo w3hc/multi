@@ -34,7 +34,6 @@ export default class EthereumRpc {
 
       // Get user's Ethereum public address
       const address = signer.getAddress();
-      console.log('address in ethersRPC:', address)
       return await address;
     } catch (error) {
       return error;
